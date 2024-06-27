@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import net.lahlalia.stock.dtos.BacDto;
 import net.lahlalia.stock.dtos.DepotDTO;
 import net.lahlalia.stock.dtos.StockProduitDto;
-import net.lahlalia.stock.entities.Depot;
 import net.lahlalia.stock.services.DepotService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,7 +15,6 @@ import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api/depot")
 @RequiredArgsConstructor
 public class DepotController {

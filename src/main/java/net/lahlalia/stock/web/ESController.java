@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api/es")
 @RequiredArgsConstructor
 public class ESController {
@@ -29,14 +28,6 @@ public class ESController {
         List<ESDto> esDtoList = esService.getSortiesParProduitDepot(idDepot,nameProduct);
         return ResponseEntity.ok(esDtoList);
     }
-//    @GetMapping("/{idDepot}/{nameProduct}/{year}/{month}")
-//    public ResponseEntity<List<StockEsDto>>createStockEsDto(@PathVariable String idDepot,
-//                                                            @PathVariable String nameProduct,
-//                                                            @PathVariable int year,
-//                                                            @PathVariable int month){
-//        List<StockEsDto> stockEsDtoList = esService.createStockEsDto(idDepot,nameProduct,year,month);
-//        return ResponseEntity.ok(stockEsDtoList);
-//    }
     @GetMapping("/{idDepot}/{nameProduct}/{year}/{month}")
     public ResponseEntity<List<StockEsDto>>generateMonthlyStockReport(@PathVariable String idDepot,
                                                             @PathVariable String nameProduct,

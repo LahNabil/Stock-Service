@@ -47,7 +47,6 @@ public class BacService {
 
     }
     public List<BacDto> getAllBacs(){
-//        return bacRepository.findAll().stream().map(bacMapper::toModel).toList();
         List<Bac> bacList = bacRepository.findAll();
         List<BacDto> bacsDto = new ArrayList<>();
         for (Bac bac : bacList) {
@@ -56,8 +55,6 @@ public class BacService {
                 bacDto.setIdProduct(bac.getIdProduct());
                 bacDto.setIdDepot(bac.getDepot().getIdDepot());
             } catch (EntityNotFoundException e) {
-                // Gérer l'exception si le produit n'est pas trouvé
-                // Vous pouvez choisir de ne pas ajouter le produit au BacDto dans ce cas
                 log.error("Product not found for Bac ID: " + bac.getIdProduct());
             }
             bacsDto.add(bacDto);
@@ -93,13 +90,9 @@ public class BacService {
 
             return bacMapper.toModel(updatedBac);
         } catch (EntityNotFoundException ex) {
-            // Log the error or handle it appropriately
-            ex.printStackTrace(); // Print the stack trace to console for debugging
-            throw ex; // Re-throw the exception to be handled at a higher level
+            throw ex;
         } catch (Exception ex) {
-            // Log the error or handle it appropriately
-            ex.printStackTrace(); // Print the stack trace to console for debugging
-            throw new RuntimeException("Error updating Bac: " + ex.getMessage()); // Wrap and throw a new exception
+            throw new RuntimeException("Error updating Bac: " + ex.getMessage());
         }
     }
     public List<BacDto> getBacsByNameProduct(String nameProduct){
@@ -146,13 +139,6 @@ public class BacService {
             log.error("value is null");
             return null;
         }
-//        EntreSortie ens = EntreSortie.builder()
-//                .quantite(es.getQuantite())
-//                .date(es.getDate())
-//                .typeES(es.getTypeES())
-//                .business(es.getBusiness())
-//                .bac(es.getBac())
-//                .build();
 
         Bac bac = bacRepository.findById(idBac).get();
         if(es.getTypeES()){
@@ -189,21 +175,4 @@ public class BacService {
 
         }
     }
-//    public BacDto soustraireProduit(EntreSortie es,String idBac)throws EntityNotFoundException{
-//        if(es == null || idBac == null || es.getBac().getIdBac()== null ){
-//            log.error("value is null");
-//            return null;
-//        }
-//        Bac bac = bacRepository.findById(idBac).get();
-//        if(!es.getTypeES()){
-//            double quantity = bac.getCapacityUsed() - es.getQuantite();
-//            bac.setCapacityUsed(quantity);
-//            Bac savedBac = bacRepository.save(bac);
-//            entreSortieRepository.save(es);
-//            return bacMapper.toModel(savedBac);
-//        }else{
-//            log.error("invalid type of EntreeSortie" + es.getTypeES());
-//            return null;
-//        }
-//    }
 }
