@@ -2,7 +2,6 @@ package net.lahlalia.stock.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import net.lahlalia.stock.dtos.Product;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;

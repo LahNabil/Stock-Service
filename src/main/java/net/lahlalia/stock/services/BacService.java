@@ -42,8 +42,8 @@ public class BacService {
     }
     public String getProductNameById(Long idProduit){
         Product product = productRestClient.getProductById(idProduit);
-        String productName = product.getName();
-        return productName;
+        return product.getName();
+
 
     }
     public List<BacDto> getAllBacs(){
@@ -64,8 +64,8 @@ public class BacService {
     public double calculerCreux(String idBac)throws EntityNotFoundException{
         Bac bac = bacRepository.findById(idBac).get();
         BacDto dto = bacMapper.toModel(bac);
-        double creux = dto.getCapacity() - dto.getCapacityUsed() - dto.getTotalImpom();
-        return creux;
+        return dto.getCapacity() - dto.getCapacityUsed() - dto.getTotalImpom();
+
     }
     public boolean deleteBacById(String idBac)throws EntityNotFoundException{
         BacDto dto = getBacById(idBac);
@@ -103,11 +103,11 @@ public class BacService {
                     return productName != null && productName.equals(nameProduct);
                 })
                 .collect(Collectors.toList());
-        List<BacDto> filteredBacDtoList = filteredBacList.stream()
+        return filteredBacList.stream()
                 .map(bacMapper::toModel)
                 .collect(Collectors.toList());
 
-        return filteredBacDtoList;
+
 
 
     }
@@ -131,8 +131,8 @@ public class BacService {
     }
     public List<BacDto> getAllBacsForDepot(String idDepot){
         List<Bac> bacs = bacRepository.findAllByDepotId(idDepot);
-        List<BacDto> bacDtos = bacs.stream().map(bacMapper::toModel).toList();
-        return bacDtos;
+        return bacs.stream().map(bacMapper::toModel).toList();
+
     }
     public BacDto ESrProduit(EntreSortie es,String idBac)throws EntityNotFoundException{
         if(es == null || idBac == null || es.getBac().getIdBac()== null  ){

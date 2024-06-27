@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.lahlalia.stock.dtos.*;
 import net.lahlalia.stock.entities.Bac;
 import net.lahlalia.stock.entities.Depot;
-import net.lahlalia.stock.entities.EntreSortie;
 import net.lahlalia.stock.entities.HistoryStock;
 import net.lahlalia.stock.exceptions.DepotNotFoundException;
 import net.lahlalia.stock.mappers.*;
@@ -45,8 +44,6 @@ public class DepotService {
     public List<BacDto> findBacsByProductAndZone(String nameProduct, String zoneDepot) {
         List<DepotDTO> allDepots = geAllDepots();
         List<BacDto> result = new ArrayList<>();
-
-        // Filter depots by zone
         List<DepotDTO> filteredDepots = allDepots.stream()
                 .filter(depot -> depot.getZone().equalsIgnoreCase(zoneDepot))
                 .collect(Collectors.toList());
@@ -95,11 +92,11 @@ public class DepotService {
                     return productName.equals(nameProduct);
                 })
                 .collect(Collectors.toList());
-        double stock = bacListFilteredByProductName.stream()
+        return bacListFilteredByProductName.stream()
                 .mapToDouble(Bac::getCapacityUsed)
                 .sum();
 
-        return stock;
+
 
     }
     public double CalculerStockProduitDepotYearMonth(String idDepot, String nameProduct, int year, int month) {
@@ -128,9 +125,6 @@ public class DepotService {
 
         // Get all history data
         List<HistoryDto> historyDtoList = historyStockService.getAllHistoryDto();
-        log.info("Total History Records: {}", historyDtoList.size());
-
-        // Filter the list by idDepot, nameProduct, and date range
         List<HistoryDto> filteredHistory = historyDtoList.stream()
                 .filter(history -> {
                     boolean idDepotMatch = history.getIdDepot().equals(idDepot);
@@ -143,21 +137,16 @@ public class DepotService {
                 })
                 .collect(Collectors.toList());
 
-        log.info("Filtered History Records: {}", filteredHistory.size());
-
-        // Calculate the stock
-        double stock = filteredHistory.stream()
+        return filteredHistory.stream()
                 .mapToDouble(HistoryDto::getStock)
                 .sum();
-        log.info("Calculated Stock: {}", stock);
 
-        return stock;
     }
 
     public double CalculerStockDepotAllProducts(String idDepot){
         List<BacDto> bacDtos = bacService.getAllBacsForDepot(idDepot);
-        double stock = bacDtos.stream().mapToDouble(BacDto::getCapacityUsed).sum();
-        return stock;
+        return bacDtos.stream().mapToDouble(BacDto::getCapacityUsed).sum();
+
 
     }
     public List<Double> calculerStockDepot(){
@@ -177,8 +166,8 @@ public class DepotService {
             return 0;
         }
         List<BacDto> bacDtos = bacService.getAllBacsForDepot(idDepot);
-        double capacity = bacDtos.stream().mapToDouble(BacDto::getCapacity).sum();
-        return capacity;
+        return bacDtos.stream().mapToDouble(BacDto::getCapacity).sum();
+
 
     }
     public List<Double> CalculerCapacites(){
@@ -238,29 +227,10 @@ public class DepotService {
             }
         }
     }
-
-    //stockSecurité = consomations journaliére x 3jrs
-    //consomation journalière = myenne de vente de l'année precedente
-//    public double calculerStockSecurite(String idDepot)throws DepotNotFoundException {
     public double calculerStockSecurite(double quantity)throws DepotNotFoundException{
-//        if(idDepot == null){
-//            log.error("value is null");
-//            return 0;
-//        }
-//        Depot depot = depotRepository.findById(idDepot)
-//                .orElseThrow(() -> new DepotNotFoundException("Depot with ID " + idDepot + " not found"));
-//        DepotDTO depotDTO = depotMapper.toModel(depot);
-        // logique de calcule de stock de securité
-        double value = 1130;
-        return value;
+        return 1130;
+
     }
-//    public List<StockProduitDto> calculerStockSecuritePourListe(List<StockProduitDto> stockProduits) {
-//        for (StockProduitDto stockProduitDto : stockProduits) {
-//            double stockSecurite = calculerStockSecurite(stockProduitDto.getQuantite());
-//            stockProduitDto.setStockSecurite(stockSecurite);
-//        }
-//        return stockProduits;
-//    }
 
     public List<StockProduitDto> calculerStocksProduitsDansDepot(DepotDTO depotDTO) {
         List<BacDto> bacDtos = depotDTO.getBacDtos();
@@ -291,7 +261,6 @@ public class DepotService {
     public List<DepotDTO> geAllDepots(){
         List<Depot> depots = depotRepository.findAll();
         List<DepotDTO> depotDTOS = new ArrayList<>();
-//        List<BacDto> bacDtos = new ArrayList<>();
 
         for(Depot depot : depots){
             List<BacDto> bacDtos = bacService.getAllBacsForDepot(depot.getIdDepot());
@@ -308,8 +277,8 @@ public class DepotService {
             return null;
         }
         Depot depot = depotRepository.findById(idDepot).get();
-        String city = depot.getZone();
-        return city;
+        return depot.getZone();
+
     }
 
 

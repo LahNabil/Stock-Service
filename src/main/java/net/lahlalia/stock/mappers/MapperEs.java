@@ -13,12 +13,12 @@ public class MapperEs {
     private final ModelMapper mapper;
 
     public EntreSortie toEntity(ESDto dto){
-        EntreSortie es = mapper.map(dto, EntreSortie.class);
-        return es;
+        return mapper.map(dto, EntreSortie.class);
+
     }
     public ESDto toModel(EntreSortie es){
-        ESDto esDto = mapper.map(es, ESDto.class);
-        return esDto;
+         return mapper.map(es, ESDto.class);
+
 
     }
 
