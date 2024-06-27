@@ -96,17 +96,5 @@ public class BacController {
             return ResponseEntity.notFound().build();
         }
     }
-//    @PostMapping("/soustraire/{idBac}")
-//    public ResponseEntity<BacDto> SoustraireProduit(@RequestBody EntreSortie es,@PathVariable String idBac){
-//        try{
-//            BacDto savedBacDto = bacService.soustraireProduit(es,idBac);
-//            if(savedBacDto != null){
-//                return ResponseEntity.ok(savedBacDto);
-//            }else {
-//                return ResponseEntity.badRequest().build();
-//            }
-//        }catch(EntityNotFoundException ex){
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+
 }

@@ -60,7 +60,7 @@ public class EsService {
                 ){
                    if (esDto.getTypeES()){
                        entre += esDto.getQuantite();
-                   } else if(!esDto.getTypeES()){
+                   } else{
                        sortie += esDto.getQuantite();
                    }
                 }
@@ -119,7 +119,7 @@ public class EsService {
                 .filter(es->bacListFilteredByProductName.stream()
                         .anyMatch(bac->bac.getIdBac().equals(es.getBac().getIdBac())))
                 .collect(Collectors.toList());
-        List<ESDto> esDtoList = ESList.stream()
+        return ESList.stream()
                 .map(es -> {
                     ESDto esDto = esMapper.toModel(es);
                     if (es.getQuantite() != 0) {
@@ -139,7 +139,7 @@ public class EsService {
                     return esDto;
                 })
                 .collect(Collectors.toList());
-        return esDtoList;
+
     }
     public List<ESDto> getAllES(){
         List<EntreSortie> ESList = entreSortieRepository.findAll();
